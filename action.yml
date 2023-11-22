@@ -1,6 +1,6 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Hello World'
+description: 'Says hello to me'
+author: 'jeanthink'
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
@@ -9,16 +9,28 @@ branding:
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  who-to-greet:
+    description: 'Who to greet'
     required: true
-    default: '1000'
-
-# Define your outputs here.
+    default: 'World'
 outputs:
-  time:
-    description: 'Your output description here'
-
+  random-number:
+    description: 'A random number'
+    value: ${{ steps.random-number-generator.outputs.random-number }}
 runs:
-  using: node20
-  main: dist/index.js
+  using: "composite"
+  steps:
+   - run: echo Hello ${{ inputs.who-to-greet }}.
+     shell: bash
+  
+   - id: random-number-generator
+     run: echo "::set-output name=random-number::$RANDOM"
+     shell: bash
+
+   - run: echo "${{github.action_path}}" >> $GITHUB_PATH
+     shell: bash
+  
+   - run: echo "Goodbye $YOU"
+     shell: bash
+     env:
+       YOU: ${{ inputs.who-to-greet }}
