@@ -1,0 +1,11 @@
+name: Hello World from jeanthink
+on:
+    push:
+        branches:
+            - main
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Hello world
+              uses: jeanthink/typescript-action@v2.0.0.0
